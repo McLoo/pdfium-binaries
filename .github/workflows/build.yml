@@ -19,11 +19,18 @@ on:
 jobs:
   build:
     name: build
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.runs-on  }}
     continue-on-error: true
     strategy:
       matrix:
-        os: ["ubuntu-20.04", "windows-2019", [self-hosted, macOS, X64]]
+        include:
+          - runs-on: windows-latest
+            arch: x86-windows
+          - runs-on: windows-latest
+            arch: x64-windows
+          - runs-on: ubuntu-20.04
+          - runs-on: macOS
+        # ["ubuntu-20.04", "windows-2019", [self-hosted, macOS, X64]]
         # Pdfium is developed alongside Chromium and does not provide releases
         # Upstream recommends using Chromium's dev channels instead
         # Extract pdfium branch name used in stable channel from omahaproxy and do
