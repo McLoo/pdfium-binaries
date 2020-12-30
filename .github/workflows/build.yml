@@ -33,7 +33,7 @@ jobs:
         PDFium_V8:
           - disabled
           - enabled 
-        configuration:
+        CONFIGURATION:
           - Release
           #- Debug 
         chromium_version: 
@@ -65,7 +65,7 @@ jobs:
           arch: amd64_x86
 
       - name: build windows
-        run: ./build.bat
+        run: ./build.bat --platform ${{ matrix.PLATFORM }} --v8 ${{ matrix.PDFium_V8 }} --configuration ${{ matrix.configuration }} --branch ${{ matrix.chromium_version }}
         if: runner.os == 'Windows'
 
       - name: Save artifacts
