@@ -5,6 +5,10 @@
 : PDFium_BRANCH = master | chromium/3211 | ...
 : PDFium_V8 = enabled
 
+      - run: echo "PDFium_BRANCH=${{ matrix.chromium_version }}" >> $GITHUB_ENV
+      - run: echo "PDFium_V8=${{ matrix.PDFium_V8 }}" >> $GITHUB_ENV
+      - run: echo "CONFIGURATION=${{ matrix.configuration }}" >> $GITHUB_ENV
+
 : Input
 set WindowsSDK_DIR=C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\%PLATFORM%
 set DepotTools_URL=https://storage.googleapis.com/chrome-infra/depot_tools.zip
@@ -66,12 +70,24 @@ if "%PDFium_V8%"=="enabled" git.exe apply --ignore-space-change --ignore-whitesp
 git.exe -C build apply --ignore-space-change --ignore-whitespace -v "%PDFium_PATCH_DIR%\rc_compiler.patch" || exit /b
 git.exe apply --ignore-space-change --ignore-whitespace -v "%PDFium_PATCH_DIR%\pdfiumviewer.patch" || exit /b
 
+echo #####################################################################
+echo CONFIGURATION: %CONFIGURATION%
+echo PLATFORM: %PLATFORM%
+echo PPDFium_V8: %PPDFium_V8%
+echo PDFium_BRANCH: %PDFium_BRANCH%
+echo #####################################################################
+
 : Configure
 copy %PDFium_ARGS% %PDFium_BUILD_DIR%\args.gn
 if "%CONFIGURATION%"=="Release" echo is_debug=false >> %PDFium_BUILD_DIR%\args.gn
 if "%PLATFORM%"=="x86" echo target_cpu="x86" >> %PDFium_BUILD_DIR%\args.gn
-if "%PDFium_V8%"=="enabled" echo pdf_enable_v8=true >> %PDFium_BUILD_DIR%\args.gn
+if "%PPDFium_V8%"=="enabled" echo pdf_enable_v8=true >> %PDFium_BUILD_DIR%\args.gn
 if "%PDFium_V8%"=="enabled" echo pdf_enable_xfa=true >> %PDFium_BUILD_DIR%\args.gn
+
+echo #####################################################################
+echo #####################################################################
+echo #####################################################################
+
 
 : Generate Ninja files
 call gn gen %PDFium_BUILD_DIR% || exit /b
