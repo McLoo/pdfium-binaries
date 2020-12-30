@@ -3,19 +3,19 @@
 : CONFIGURATION = Debug | Release
 : PLATFORM = x86 | x64
 : PDFium_BRANCH = master | chromium/3211 | ...
-: PDFium_V8 = enabled
+: PDFium_Veight = enabled
  
 echo #####################################################################
 echo CONFIGURATION: %CONFIGURATION%
 echo PLATFORM: %PLATFORM%
-echo PDFium_V8: %PDFium_V8%
+echo PDFium_Veight: %PDFium_Veight%
 echo PDFium_BRANCH: %PDFium_BRANCH%
 echo #####################################################################
 
 
 :GETOPTS
 IF /I "%1" == "--platform" SET PLATFORM=%2& SHIFT
-IF /I "%1" == "--v8" SET PDFium_V8=%2& SHIFT
+IF /I "%1" == "--v8" SET PDFium_Veight=%2& SHIFT
 IF /I "%1" == "--configuration" SET CONFIGURATION=%2& SHIFT
 IF /I "%1" == "--branch" SET PDFium_BRANCH=%2& SHIFT
 SHIFT
@@ -24,7 +24,7 @@ IF NOT "%1" == "" GOTO GETOPTS
 echo #####################################################################
 echo CONFIGURATION: %CONFIGURATION%
 echo PLATFORM: %PLATFORM%
-echo PDFium_V8: %PDFium_V8%
+echo PDFium_Veight: %PDFium_Veight%
 echo PDFium_BRANCH: %PDFium_BRANCH%
 echo #####################################################################
 
@@ -46,7 +46,7 @@ set PDFium_BIN_DIR=%PDFium_STAGING_DIR%\%PLATFORM%\bin
 set PDFium_LIB_DIR=%PDFium_STAGING_DIR%\%PLATFORM%\lib
 set PDFium_RES_DIR=%PDFium_STAGING_DIR%\%PLATFORM%\res
 set PDFium_ARTIFACT_BASE=%CD%\pdfium-windows-%PLATFORM%
-if "%PDFium_V8%"=="enabled" set PDFium_ARTIFACT_BASE=%PDFium_ARTIFACT_BASE%-v8
+if "%PDFium_Veight%"=="enabled" set PDFium_ARTIFACT_BASE=%PDFium_ARTIFACT_BASE%-v8
 if "%CONFIGURATION%"=="Debug" set PDFium_ARTIFACT_BASE=%PDFium_ARTIFACT_BASE%-debug
 set PDFium_ARTIFACT=%PDFium_ARTIFACT_BASE%.zip
 
@@ -85,7 +85,7 @@ cd %PDFium_SOURCE_DIR%
 copy "%PDFium_PATCH_DIR%\resources.rc" . || exit /b
 git.exe apply --ignore-space-change --ignore-whitespace -v "%PDFium_PATCH_DIR%\shared_library.patch" || exit /b
 git.exe apply --ignore-space-change --ignore-whitespace -v "%PDFium_PATCH_DIR%\relative_includes.patch" || exit /b
-if "%PDFium_V8%"=="enabled" git.exe apply --ignore-space-change --ignore-whitespace -v "%PDFium_PATCH_DIR%\v8_init.patch" || exit /b
+if "%PDFium_Veight%"=="enabled" git.exe apply --ignore-space-change --ignore-whitespace -v "%PDFium_PATCH_DIR%\v8_init.patch" || exit /b
 git.exe -C build apply --ignore-space-change --ignore-whitespace -v "%PDFium_PATCH_DIR%\rc_compiler.patch" || exit /b
 git.exe apply --ignore-space-change --ignore-whitespace -v "%PDFium_PATCH_DIR%\pdfiumviewer.patch" || exit /b
 
@@ -95,8 +95,8 @@ git.exe apply --ignore-space-change --ignore-whitespace -v "%PDFium_PATCH_DIR%\p
 copy %PDFium_ARGS% %PDFium_BUILD_DIR%\args.gn
 if "%CONFIGURATION%"=="Release" echo is_debug=false >> %PDFium_BUILD_DIR%\args.gn
 if "%PLATFORM%"=="x86" echo target_cpu="x86" >> %PDFium_BUILD_DIR%\args.gn
-if "%PDFium_V8%"=="enabled" echo pdf_enable_v8=true >> %PDFium_BUILD_DIR%\args.gn
-if "%PDFium_V8%"=="enabled" echo pdf_enable_xfa=true >> %PDFium_BUILD_DIR%\args.gn
+if "%PDFium_Veight%"=="enabled" echo pdf_enable_v8=true >> %PDFium_BUILD_DIR%\args.gn
+if "%PDFium_Veight%"=="enabled" echo pdf_enable_xfa=true >> %PDFium_BUILD_DIR%\args.gn
 
 echo #####################################################################
 echo #####################################################################
@@ -120,7 +120,7 @@ del %PDFium_INCLUDE_DIR%\PRESUBMIT.py
 move %PDFium_BUILD_DIR%\pdfium.dll.lib %PDFium_LIB_DIR% || exit /b
 move %PDFium_BUILD_DIR%\pdfium.dll %PDFium_BIN_DIR% || exit /b
 if "%CONFIGURATION%"=="Debug" move %PDFium_BUILD_DIR%\pdfium.dll.pdb %PDFium_BIN_DIR%
-if "%PDFium_V8%"=="enabled" (
+if "%PDFium_Veight%"=="enabled" (
     mkdir %PDFium_RES_DIR%
     move %PDFium_BUILD_DIR%\icudtl.dat %PDFium_RES_DIR%
     move %PDFium_BUILD_DIR%\snapshot_blob.bin %PDFium_RES_DIR%
