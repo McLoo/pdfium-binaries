@@ -91,7 +91,7 @@ index 000000000..3e7c4cebf
 +		{
 +#if PDF_ENABLE_V8
 +			v8::V8::InitializeICU();
-+			platform = v8::platform::CreateDefaultPlatform();
++			platform = v8::platform::NewDefaultPlatform(); //CreateDefaultPlatform(); //https://bugs.chromium.org/p/v8/issues/detail?id=8562#c40
 +			v8::V8::InitializePlatform(platform);
 +			v8::V8::Initialize();
 +#endif // PDF_ENABLE_V8
