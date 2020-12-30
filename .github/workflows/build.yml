@@ -24,9 +24,9 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu-latest
-          - macos-latest
           - windows-latest
+          #- ubuntu-latest
+          #- macos-latest
         PLATFORM:
           - x64
           - x86 
@@ -35,10 +35,10 @@ jobs:
           - enabled 
         configuration:
           - Release
-          - Debug 
+          #- Debug 
         chromium_version: 
           - "master" 
-          - "chromium/4320"
+          #- "chromium/4320"
         # ["ubuntu-20.04", "windows-2019", [self-hosted, macOS, X64]]
         # Pdfium is developed alongside Chromium and does not provide releases
         # Upstream recommends using Chromium's dev channels instead
