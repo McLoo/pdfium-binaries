@@ -8,7 +8,7 @@
 echo #####################################################################
 echo CONFIGURATION: %CONFIGURATION%
 echo PLATFORM: %PLATFORM%
-echo PPDFium_V8: %PPDFium_V8%
+echo PDFium_V8: %PDFium_V8%
 echo PDFium_BRANCH: %PDFium_BRANCH%
 echo #####################################################################
 
@@ -24,7 +24,7 @@ IF NOT "%1" == "" GOTO GETOPTS
 echo #####################################################################
 echo CONFIGURATION: %CONFIGURATION%
 echo PLATFORM: %PLATFORM%
-echo PPDFium_V8: %PPDFium_V8%
+echo PDFium_V8: %PDFium_V8%
 echo PDFium_BRANCH: %PDFium_BRANCH%
 echo #####################################################################
 
@@ -95,7 +95,7 @@ git.exe apply --ignore-space-change --ignore-whitespace -v "%PDFium_PATCH_DIR%\p
 copy %PDFium_ARGS% %PDFium_BUILD_DIR%\args.gn
 if "%CONFIGURATION%"=="Release" echo is_debug=false >> %PDFium_BUILD_DIR%\args.gn
 if "%PLATFORM%"=="x86" echo target_cpu="x86" >> %PDFium_BUILD_DIR%\args.gn
-if "%PPDFium_V8%"=="enabled" echo pdf_enable_v8=true >> %PDFium_BUILD_DIR%\args.gn
+if "%PDFium_V8%"=="enabled" echo pdf_enable_v8=true >> %PDFium_BUILD_DIR%\args.gn
 if "%PDFium_V8%"=="enabled" echo pdf_enable_xfa=true >> %PDFium_BUILD_DIR%\args.gn
 
 echo #####################################################################
