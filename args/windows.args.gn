@@ -5,7 +5,7 @@ is_component_build = false
 pdf_is_standalone = true
 
 # Disable Javascript
-pdf_enable_v8 = false
+#pdf_enable_v8 = false
 
 # Disable XFA support
 pdf_enable_xfa = false
@@ -14,5 +14,5 @@ pdf_enable_xfa = false
 #pdf_use_win32_gdi = true
 
 # Generate a 32-bit version
-target_cpu = "x86"
-is_debug = false
+#target_cpu = "x86"
+#is_debug = false
