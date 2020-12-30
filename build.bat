@@ -4,10 +4,29 @@
 : PLATFORM = x86 | x64
 : PDFium_BRANCH = master | chromium/3211 | ...
 : PDFium_V8 = enabled
+ 
+echo #####################################################################
+echo CONFIGURATION: %CONFIGURATION%
+echo PLATFORM: %PLATFORM%
+echo PPDFium_V8: %PPDFium_V8%
+echo PDFium_BRANCH: %PDFium_BRANCH%
+echo #####################################################################
 
-      - run: echo "PDFium_BRANCH=${{ matrix.chromium_version }}" >> $GITHUB_ENV
-      - run: echo "PDFium_V8=${{ matrix.PDFium_V8 }}" >> $GITHUB_ENV
-      - run: echo "CONFIGURATION=${{ matrix.configuration }}" >> $GITHUB_ENV
+
+:GETOPTS
+IF /I "%1" == "--platform" SET PLATFORM=%2& SHIFT
+IF /I "%1" == "--v8" SET PDFium_V8=%2& SHIFT
+IF /I "%1" == "--configuration" SET CONFIGURATION=%2& SHIFT
+IF /I "%1" == "--branch" SET PDFium_BRANCH=%2& SHIFT
+SHIFT
+IF NOT "%1" == "" GOTO GETOPTS
+
+echo #####################################################################
+echo CONFIGURATION: %CONFIGURATION%
+echo PLATFORM: %PLATFORM%
+echo PPDFium_V8: %PPDFium_V8%
+echo PDFium_BRANCH: %PDFium_BRANCH%
+echo #####################################################################
 
 : Input
 set WindowsSDK_DIR=C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\%PLATFORM%
@@ -70,12 +89,7 @@ if "%PDFium_V8%"=="enabled" git.exe apply --ignore-space-change --ignore-whitesp
 git.exe -C build apply --ignore-space-change --ignore-whitespace -v "%PDFium_PATCH_DIR%\rc_compiler.patch" || exit /b
 git.exe apply --ignore-space-change --ignore-whitespace -v "%PDFium_PATCH_DIR%\pdfiumviewer.patch" || exit /b
 
-echo #####################################################################
-echo CONFIGURATION: %CONFIGURATION%
-echo PLATFORM: %PLATFORM%
-echo PPDFium_V8: %PPDFium_V8%
-echo PDFium_BRANCH: %PDFium_BRANCH%
-echo #####################################################################
+
 
 : Configure
 copy %PDFium_ARGS% %PDFium_BUILD_DIR%\args.gn
