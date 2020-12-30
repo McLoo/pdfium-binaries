@@ -38,7 +38,7 @@ jobs:
           #- Debug 
         chromium_version: 
           - "master" 
-          #- "chromium/4320"
+          - "chromium/4320"
         # ["ubuntu-20.04", "windows-2019", [self-hosted, macOS, X64]]
         # Pdfium is developed alongside Chromium and does not provide releases
         # Upstream recommends using Chromium's dev channels instead
